@@ -12,6 +12,7 @@ interface FormData {
 export default function Login (){
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>('')
     const [formData, setFormData]  = useState<FormData>({
         email: '',
         password: '',
@@ -27,8 +28,10 @@ export default function Login (){
         setLoading(true)
 
         try{
+            "use server"
             const res= await axiosInstance.post("/user/login", formData)
             setFormData(res.data);
+            setMessage('login successful')
 
             router.push('/dash')
         }catch(err){
@@ -66,8 +69,8 @@ export default function Login (){
                     >
                         {loading ? 'loging ...' : 'login'}
                     </button>
-
                 </form>
+                {message && <p style={{ color: 'green'}}>{message}</p>}
             </div>
         </div>
     )
